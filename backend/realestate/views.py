@@ -29,6 +29,7 @@ from .serializers import (
 )
 from .permissions import IsAdminOrStaff
 from .throttling import MessageCreateThrottle
+from .search_utils import build_location_filter, build_search_filter
 
 
 # =============================================================================
@@ -64,18 +65,15 @@ class PublicPropertyListView(generics.ListAPIView):
         if status_filter:
             queryset = queryset.filter(status=status_filter.upper())
 
-        # Search query (title or location)
+        # Search query (title or location with fuzzy matching)
         search_query = params.get('q')
         if search_query:
-            queryset = queryset.filter(
-                Q(title__icontains=search_query) |
-                Q(location_text__icontains=search_query)
-            )
+            queryset = queryset.filter(build_search_filter(search_query))
 
-        # Location filter
+        # Location filter (with fuzzy matching)
         location = params.get('location')
         if location:
-            queryset = queryset.filter(location_text__icontains=location)
+            queryset = queryset.filter(build_location_filter(location))
 
         # Price range
         min_price = params.get('min_price')
