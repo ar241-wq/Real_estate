@@ -1,15 +1,46 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 import { getProperties } from '@/lib/api';
 import PropertyCard from '@/components/properties/PropertyCard';
 
-export default async function FeaturedListings() {
-  let properties = [];
+export default function FeaturedListings() {
+  const { t } = useTranslation();
+  const [properties, setProperties] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  try {
-    const response = await getProperties({ featured: 'true', page_size: 6 });
-    properties = response.results;
-  } catch (error) {
-    console.error('Failed to fetch featured properties:', error);
+  useEffect(() => {
+    async function fetchProperties() {
+      try {
+        const response = await getProperties({ featured: 'true', page_size: 6 });
+        setProperties(response.results);
+      } catch (error) {
+        console.error('Failed to fetch featured properties:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchProperties();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <section className="py-16 lg:py-24 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <div className="h-8 w-64 bg-secondary-200 rounded mx-auto mb-4 animate-pulse" />
+            <div className="h-4 w-96 bg-secondary-100 rounded mx-auto animate-pulse" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-secondary-100 rounded-xl h-80 animate-pulse" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
   }
 
   if (properties.length === 0) {
@@ -21,10 +52,9 @@ export default async function FeaturedListings() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="section-title">Featured Properties</h2>
+          <h2 className="section-title">{t('featured.title')}</h2>
           <p className="section-subtitle mx-auto">
-            Discover our hand-picked selection of premium properties available
-            for sale and rent
+            {t('featured.subtitle')}
           </p>
         </div>
 
@@ -41,7 +71,7 @@ export default async function FeaturedListings() {
             href="/properties"
             className="btn-outline inline-flex items-center"
           >
-            View All Properties
+            {t('featured.viewAll')}
             <svg
               className="w-4 h-4 ml-2"
               fill="none"

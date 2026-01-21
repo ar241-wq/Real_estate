@@ -5,6 +5,7 @@ import Header from './Header';
 import Footer from './Footer';
 import FloatingMessageWidget from '../FloatingMessageWidget';
 import { FavoritesProvider } from '@/context/FavoritesContext';
+import { LanguageProvider } from '@/context/LanguageContext';
 
 export default function PublicLayout({
   children,
@@ -20,11 +21,13 @@ export default function PublicLayout({
   }
 
   return (
-    <FavoritesProvider>
-      <Header />
-      <main className="flex-grow">{children}</main>
-      <Footer />
-      <FloatingMessageWidget />
-    </FavoritesProvider>
+    <LanguageProvider>
+      <FavoritesProvider>
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Footer />
+        <FloatingMessageWidget />
+      </FavoritesProvider>
+    </LanguageProvider>
   );
 }

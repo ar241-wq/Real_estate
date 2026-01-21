@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 import { useFavorites } from '@/context/FavoritesContext';
 
 interface SavedLinkProps {
@@ -12,6 +13,7 @@ interface SavedLinkProps {
 export default function SavedLink({ variant = 'desktop', onClick }: SavedLinkProps) {
   const { savedCount, isLoaded } = useFavorites();
   const pathname = usePathname();
+  const { t } = useTranslation();
   const isActive = pathname === '/saved';
 
   if (variant === 'mobile') {
@@ -36,7 +38,7 @@ export default function SavedLink({ variant = 'desktop', onClick }: SavedLinkPro
             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
           />
         </svg>
-        Saved
+        {t('nav.saved')}
         {isLoaded && savedCount > 0 && (
           <span className="ml-2 bg-red-500 text-white text-xs font-medium px-2 py-0.5 rounded-full">
             {savedCount}

@@ -1,0 +1,134 @@
+{
+  "nav": {
+    "home": "Ballina",
+    "properties": "Pronat",
+    "aboutUs": "Rreth Nesh",
+    "contact": "Kontakt",
+    "buy": "Blej",
+    "rent": "Qira",
+    "buyProperty": "Blej Pronë",
+    "rentProperty": "Merr me Qira",
+    "findProperties": "Gjej Prona",
+    "saved": "Të Ruajtura"
+  },
+  "hero": {
+    "badge": "Besuar nga 10,000+ pronarë të lumtur",
+    "titleLine1": "Gjeni Pronën Tuaj",
+    "titleLine2": "Të Ëndrrave",
+    "subtitle": "Zbuloni prona të jashtëzakonshme për shitje dhe qira. Nga penthouse luksoze në shtëpi të ngrohta familjare, ne ju ndihmojmë të gjeni vendin e përsosur për të jetuar.",
+    "bookViewing": "Rezervo një Vizitë",
+    "contactAgent": "Kontakto Agjentin",
+    "stats": {
+      "properties": "Prona",
+      "happyClients": "Klientë të Kënaqur",
+      "yearsExperience": "Vite Përvojë",
+      "satisfactionRate": "Shkallë Kënaqësie"
+    }
+  },
+  "search": {
+    "buy": "Blej",
+    "rent": "Qira",
+    "locationPlaceholder": "Shkruaj qytetin ose zonën",
+    "minPlaceholder": "Min",
+    "maxPlaceholder": "Maks",
+    "search": "Kërko"
+  },
+  "featured": {
+    "title": "Pronat e Zgjedhura",
+    "subtitle": "Zbuloni përzgjedhjen tonë të pronave premium të disponueshme për shitje dhe qira",
+    "viewAll": "Shiko Të Gjitha Pronat"
+  },
+  "footer": {
+    "description": "Partneri juaj i besuar në gjetjen e pronës së përsosur. Ne ofrojmë shërbime të jashtëzakonshme të pasurive të paluajtshme me integritet dhe ekspertizë.",
+    "quickLinks": "Lidhje të Shpejta",
+    "propertyTypes": "Llojet e Pronave",
+    "contactUs": "Na Kontaktoni",
+    "forSale": "Për Shitje",
+    "forRent": "Me Qira",
+    "commercial": "Komerciale",
+    "newDevelopments": "Ndërtime të Reja",
+    "allRightsReserved": "Të gjitha të drejtat të rezervuara."
+  },
+  "about": {
+    "pageTitle": "Rreth RealEstate",
+    "heroSubtitle": "Për më shumë se 15 vjet, ne kemi ndihmuar familje dhe biznese të gjejnë pronat e tyre të përsosura. Angazhimi ynë për përsosmëri dhe kënaqësinë e klientit na ka bërë një emër të besuar në pasuritë e paluajtshme.",
+    "ourStory": "Historia Jonë",
+    "storyP1": "E themeluar në 2009, RealEstate filloi me një mision të thjeshtë: të transformojë mënyrën se si njerëzit blejnë, shesin dhe marrin me qira prona. Ajo që filloi si një ekip i vogël agjentësh të përkushtuar është rritur në një kompani të plotë shërbimesh të pasurive të paluajtshme që shërben mijëra klientë.",
+    "storyP2": "Themeluesi ynë, Sarah Johnson, njohu se industria e pasurive të paluajtshme kishte nevojë për një qasje më të fokusuar tek klienti. Ajo ndërtoi RealEstate mbi parimet e transparencës, ekspertizës dhe kujdesit të vërtetë për nevojat e klientëve.",
+    "storyP3": "Sot, ne vazhdojmë të inovojmë dhe të përshtatemi me peizazhin gjithnjë në ndryshim të pasurive të paluajtshme duke ruajtur vlerat tona thelbësore që na kanë bërë të suksesshëm.",
+    "ourPrinciples": "Parimet Tona",
+    "missionAndValues": "Misioni & Vlerat",
+    "valuesSubtitle": "Ne udhëhiqemi nga një grup vlerash thelbësore që përcaktojnë se kush jemi dhe si u shërbejmë klientëve tanë.",
+    "ourMission": "Misioni Ynë",
+    "missionStatement": "Të fuqizojmë individët dhe familjet të arrijnë ëndrrat e tyre të pasurive të paluajtshme përmes udhëzimit ekspert, zgjidhjeve inovative dhe angazhimit të palëkundshëm ndaj suksesit të tyre.",
+    "values": {
+      "integrity": {
+        "title": "Integriteti",
+        "description": "Ne kryejmë biznesin tonë me standardet më të larta etike, duke siguruar transparencë dhe ndershmëri në çdo transaksion."
+      },
+      "excellence": {
+        "title": "Përsosmëria",
+        "description": "Ne përpiqemi për përsosmëri në gjithçka që bëjmë, nga shërbimi ndaj klientit te përzgjedhja e pronave dhe analiza e tregut."
+      },
+      "clientFocus": {
+        "title": "Fokusi tek Klienti",
+        "description": "Klientët tanë janë në zemër të gjithçkaje që bëjmë. Ne dëgjojmë, kuptojmë dhe ofrojmë zgjidhje të personalizuara."
+      },
+      "innovation": {
+        "title": "Inovacioni",
+        "description": "Ne përqafojmë teknologjinë dhe idetë e reja për të ofruar zgjidhje të avancuara në shërbimet e pasurive të paluajtshme."
+      }
+    },
+    "certificationsTitle": "Certifikimet & Partnerët",
+    "certificationsSubtitle": "Ne ruajmë standardet më të larta të industrisë përmes edukimit të vazhdueshëm dhe certifikimeve profesionale.",
+    "certifications": {
+      "nar": {
+        "name": "Shoqata Kombëtare e Agjentëve",
+        "description": "Anëtar i organizatës kryesore profesionale të pasurive të paluajtshme në Shtetet e Bashkuara."
+      },
+      "crs": {
+        "name": "Specialist i Certifikuar Rezidencial",
+        "description": "Trajnim i avancuar në transaksionet e pasurive të paluajtshme rezidenciale dhe shërbimin ndaj klientit."
+      },
+      "abr": {
+        "name": "Përfaqësues i Akredituar i Blerësve",
+        "description": "Ekspertizë e specializuar në përfaqësimin e blerësve të shtëpive gjatë gjithë procesit."
+      },
+      "rene": {
+        "name": "Ekspert i Negociatave të Pasurive të Paluajtshme",
+        "description": "Certifikim profesional në strategji dhe teknika të avancuara negocimi."
+      }
+    },
+    "ctaTitle": "Gati të Gjeni Pronën Tuaj të Ëndrrave?",
+    "ctaSubtitle": "Lini ekipin tonë me përvojë t'ju ndihmojë të lundroni në tregun e pasurive të paluajtshme me besim.",
+    "browseProperties": "Shfleto Pronat",
+    "contactAnAgent": "Kontakto një Agjent"
+  },
+  "contact": {
+    "pageTitle": "Na Kontaktoni",
+    "heroSubtitle": "Keni pyetje rreth një prone ose keni nevojë për ndihmë? Ekipi ynë është këtu për t'ju ndihmuar të gjeni shtëpinë tuaj të përsosur.",
+    "sendMessage": "Na Dërgoni një Mesazh",
+    "getInTouch": "Kontaktoni",
+    "form": {
+      "name": "Emri",
+      "namePlaceholder": "Emri juaj i plotë",
+      "email": "Email",
+      "emailPlaceholder": "email@juaj.com",
+      "phone": "Telefon",
+      "phonePlaceholder": "+355 69 000 0000",
+      "message": "Mesazhi",
+      "messagePlaceholder": "Si mund t'ju ndihmojmë?",
+      "submit": "Dërgo Mesazh"
+    },
+    "successMessage": "Faleminderit për mesazhin tuaj! Do t'ju kontaktojmë së shpejti.",
+    "officeAddress": "Adresa e Zyrës",
+    "businessHours": "Orari i Punës",
+    "businessHoursDetails": {
+      "weekdays": "E Hënë - E Premte: 9:00 - 18:00",
+      "saturday": "E Shtunë: 10:00 - 16:00",
+      "sunday": "E Diel: Mbyllur"
+    },
+    "ctaTitle": "Gati të Filloni Kërkimin për Pronë?",
+    "ctaSubtitle": "Shfletoni koleksionin tonë të gjerë të pronave ose flisni me një nga agjentët tanë sot."
+  }
+}

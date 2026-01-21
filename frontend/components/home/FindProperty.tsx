@@ -3,7 +3,7 @@ import { getProperties } from '@/lib/api';
 import PropertyCard from '@/components/properties/PropertyCard';
 
 export default async function FindProperty() {
-  let properties = [];
+  let properties: any[] = [];
 
   try {
     const response = await getProperties({ page_size: 2 });

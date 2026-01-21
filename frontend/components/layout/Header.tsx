@@ -4,12 +4,15 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 import SavedLink from './SavedLink';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,10 +31,10 @@ export default function Header() {
   };
 
   const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/properties', label: 'Properties' },
-    { href: '/about', label: 'About Us' },
-    { href: '/contact', label: 'Contact' },
+    { href: '/', label: t('nav.home') },
+    { href: '/properties', label: t('nav.properties') },
+    { href: '/about', label: t('nav.aboutUs') },
+    { href: '/contact', label: t('nav.contact') },
   ];
 
   return (
@@ -75,21 +78,22 @@ export default function Header() {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center space-x-4">
+            <LanguageSwitcher />
             <Link
               href="/properties?status=BUY"
               className="text-sm font-medium text-secondary-600 hover:text-secondary-900"
             >
-              Buy
+              {t('nav.buy')}
             </Link>
             <Link
               href="/properties?status=RENT"
               className="text-sm font-medium text-secondary-600 hover:text-secondary-900"
             >
-              Rent
+              {t('nav.rent')}
             </Link>
             <SavedLink variant="desktop" />
             <Link href="/properties" className="btn-primary">
-              Find Properties
+              {t('nav.findProperties')}
             </Link>
           </div>
 
@@ -151,19 +155,22 @@ export default function Header() {
                 </Link>
               ))}
               <div className="pt-4 border-t border-secondary-200 flex flex-col space-y-3">
+                <div className="pb-2">
+                  <LanguageSwitcher />
+                </div>
                 <Link
                   href="/properties?status=BUY"
                   className="text-base font-medium text-secondary-600"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Buy Property
+                  {t('nav.buyProperty')}
                 </Link>
                 <Link
                   href="/properties?status=RENT"
                   className="text-base font-medium text-secondary-600"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Rent Property
+                  {t('nav.rentProperty')}
                 </Link>
                 <SavedLink
                   variant="mobile"
@@ -174,7 +181,7 @@ export default function Header() {
                   className="btn-primary text-center"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Find Properties
+                  {t('nav.findProperties')}
                 </Link>
               </div>
             </div>

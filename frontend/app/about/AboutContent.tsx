@@ -1,57 +1,56 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 import StatsSection from '@/components/StatsSection';
 import ValuesAccordion from '@/components/ValuesAccordion';
 import AnimateOnScroll, { StaggerContainer } from '@/components/ui/AnimateOnScroll';
 
-const values = [
-  {
-    title: 'Integrity',
-    description:
-      'We conduct our business with the highest ethical standards, ensuring transparency and honesty in every transaction.',
-  },
-  {
-    title: 'Excellence',
-    description:
-      'We strive for excellence in everything we do, from client service to property selection and market analysis.',
-  },
-  {
-    title: 'Client Focus',
-    description:
-      'Our clients are at the heart of everything we do. We listen, understand, and deliver personalized solutions.',
-  },
-  {
-    title: 'Innovation',
-    description:
-      'We embrace technology and new ideas to provide cutting-edge solutions in real estate services.',
-  },
-];
-
-const certifications = [
-  {
-    name: 'National Association of Realtors',
-    description: 'Member of the leading real estate professional organization in the United States.',
-    icon: 'shield',
-  },
-  {
-    name: 'Certified Residential Specialist',
-    description: 'Advanced training in residential real estate transactions and client service.',
-    icon: 'home',
-  },
-  {
-    name: 'Accredited Buyer Representative',
-    description: 'Specialized expertise in representing home buyers throughout the process.',
-    icon: 'handshake',
-  },
-  {
-    name: 'Real Estate Negotiation Expert',
-    description: 'Professional certification in advanced negotiation strategies and techniques.',
-    icon: 'medal',
-  },
-];
-
 export default function AboutContent() {
+  const { t } = useTranslation();
+
+  const values = [
+    {
+      title: t('about.values.integrity.title'),
+      description: t('about.values.integrity.description'),
+    },
+    {
+      title: t('about.values.excellence.title'),
+      description: t('about.values.excellence.description'),
+    },
+    {
+      title: t('about.values.clientFocus.title'),
+      description: t('about.values.clientFocus.description'),
+    },
+    {
+      title: t('about.values.innovation.title'),
+      description: t('about.values.innovation.description'),
+    },
+  ];
+
+  const certifications = [
+    {
+      name: t('about.certifications.nar.name'),
+      description: t('about.certifications.nar.description'),
+      icon: 'shield',
+    },
+    {
+      name: t('about.certifications.crs.name'),
+      description: t('about.certifications.crs.description'),
+      icon: 'home',
+    },
+    {
+      name: t('about.certifications.abr.name'),
+      description: t('about.certifications.abr.description'),
+      icon: 'handshake',
+    },
+    {
+      name: t('about.certifications.rene.name'),
+      description: t('about.certifications.rene.description'),
+      icon: 'medal',
+    },
+  ];
+
   return (
     <div className="bg-white">
       {/* Hero Section */}
@@ -68,14 +67,12 @@ export default function AboutContent() {
           <div className="max-w-3xl">
             <AnimateOnScroll animation="fade-in-down" duration={1000}>
               <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-                About RealEstate
+                {t('about.pageTitle')}
               </h1>
             </AnimateOnScroll>
             <AnimateOnScroll animation="fade-in-up" delay={200} duration={1000}>
               <p className="text-xl text-secondary-300 leading-relaxed">
-                For over 15 years, we have been helping families and businesses
-                find their perfect properties. Our commitment to excellence and
-                client satisfaction has made us a trusted name in real estate.
+                {t('about.heroSubtitle')}
               </p>
             </AnimateOnScroll>
           </div>
@@ -92,24 +89,16 @@ export default function AboutContent() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <AnimateOnScroll animation="slide-in-left" duration={1000}>
               <div>
-                <h2 className="section-title mb-6">Our Story</h2>
+                <h2 className="section-title mb-6">{t('about.ourStory')}</h2>
                 <div className="prose prose-xl text-secondary-600">
                   <p>
-                    Founded in 2009, RealEstate began with a simple mission: to
-                    transform the way people buy, sell, and rent properties. What
-                    started as a small team of dedicated agents has grown into a
-                    full-service real estate company serving thousands of clients.
+                    {t('about.storyP1')}
                   </p>
                   <p>
-                    Our founder, Sarah Johnson, recognized that the real estate
-                    industry needed a more client-centric approach. She built
-                    RealEstate on the principles of transparency, expertise, and
-                    genuine care for clients&apos; needs.
+                    {t('about.storyP2')}
                   </p>
                   <p>
-                    Today, we continue to innovate and adapt to the ever-changing
-                    real estate landscape while maintaining our core values that
-                    have made us successful.
+                    {t('about.storyP3')}
                   </p>
                 </div>
               </div>
@@ -142,14 +131,13 @@ export default function AboutContent() {
           {/* Section Header */}
           <AnimateOnScroll animation="fade-in-up" className="text-center mb-16">
             <span className="inline-block text-xs font-semibold tracking-[0.2em] uppercase text-primary-600 mb-4">
-              Our Principles
+              {t('about.ourPrinciples')}
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary-900 mb-5">
-              Mission & Values
+              {t('about.missionAndValues')}
             </h2>
             <p className="text-lg text-secondary-500 max-w-2xl mx-auto leading-relaxed">
-              We are guided by a set of core values that define who we are and
-              how we serve our clients.
+              {t('about.valuesSubtitle')}
             </p>
           </AnimateOnScroll>
 
@@ -162,16 +150,14 @@ export default function AboutContent() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                   </svg>
-                  Our Mission
+                  {t('about.ourMission')}
                 </span>
               </div>
 
               {/* Card */}
               <div className="bg-white rounded-3xl p-10 lg:p-12 shadow-xl shadow-secondary-900/5 border border-secondary-100 hover:shadow-2xl hover:shadow-secondary-900/10 transition-shadow duration-500">
                 <p className="text-secondary-700 text-center text-xl lg:text-2xl leading-relaxed font-light">
-                  To empower individuals and families to achieve their real estate
-                  dreams through expert guidance, innovative solutions, and
-                  unwavering commitment to their success.
+                  {t('about.missionStatement')}
                 </p>
               </div>
             </div>
@@ -192,11 +178,10 @@ export default function AboutContent() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <AnimateOnScroll animation="fade-in-up" className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-secondary-900 mb-4">
-              Certifications & Partners
+              {t('about.certificationsTitle')}
             </h2>
             <p className="text-lg text-secondary-500 max-w-2xl mx-auto leading-relaxed">
-              We maintain the highest industry standards through continuous
-              education and professional certifications.
+              {t('about.certificationsSubtitle')}
             </p>
           </AnimateOnScroll>
 
@@ -283,13 +268,12 @@ export default function AboutContent() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <AnimateOnScroll animation="fade-in-up">
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
-              Ready to Find Your Dream Property?
+              {t('about.ctaTitle')}
             </h2>
           </AnimateOnScroll>
           <AnimateOnScroll animation="fade-in-up" delay={100}>
             <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
-              Let our experienced team help you navigate the real estate market
-              with confidence.
+              {t('about.ctaSubtitle')}
             </p>
           </AnimateOnScroll>
           <AnimateOnScroll animation="scale-in" delay={200}>
@@ -298,13 +282,13 @@ export default function AboutContent() {
                 href="/properties"
                 className="btn-primary bg-white text-primary-600 hover:bg-primary-50 hover:scale-105 transition-all duration-300"
               >
-                Browse Properties
+                {t('about.browseProperties')}
               </Link>
               <Link
                 href="/contact"
                 className="btn-outline bg-transparent text-white border-white/30 hover:bg-white/10 hover:scale-105 transition-all duration-300"
               >
-                Contact an Agent
+                {t('about.contactAnAgent')}
               </Link>
             </div>
           </AnimateOnScroll>

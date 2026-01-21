@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 import { trackLocationSearch } from '@/lib/searchTracker';
 
 export default function SearchBar() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [status, setStatus] = useState('BUY');
   const [location, setLocation] = useState('');
   const [minPrice, setMinPrice] = useState('');
@@ -48,7 +50,7 @@ export default function SearchBar() {
                     : 'text-secondary-600 hover:text-secondary-900'
                 }`}
               >
-                {option === 'BUY' ? 'Buy' : 'Rent'}
+                {option === 'BUY' ? t('search.buy') : t('search.rent')}
               </button>
             ))}
           </div>
@@ -78,7 +80,7 @@ export default function SearchBar() {
             </div>
             <input
               type="text"
-              placeholder="Enter city or area"
+              placeholder={t('search.locationPlaceholder')}
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               className="w-full pl-10 pr-4 py-3 text-sm text-secondary-900 placeholder:text-secondary-400 bg-secondary-50 sm:bg-transparent rounded-lg sm:rounded-none border-0 focus:outline-none focus:ring-2 sm:focus:ring-0 focus:ring-primary-500"
@@ -96,7 +98,7 @@ export default function SearchBar() {
               </span>
               <input
                 type="number"
-                placeholder="Min"
+                placeholder={t('search.minPlaceholder')}
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
                 className="w-full sm:w-28 pl-7 pr-2 py-3 text-sm text-secondary-900 placeholder:text-secondary-400 bg-secondary-50 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-primary-500"
@@ -109,7 +111,7 @@ export default function SearchBar() {
               </span>
               <input
                 type="number"
-                placeholder="Max"
+                placeholder={t('search.maxPlaceholder')}
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
                 className="w-full sm:w-28 pl-7 pr-2 py-3 text-sm text-secondary-900 placeholder:text-secondary-400 bg-secondary-50 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-primary-500"
@@ -136,7 +138,7 @@ export default function SearchBar() {
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
-            <span className="sm:inline ml-2 sm:ml-0">Search</span>
+            <span className="sm:inline ml-2 sm:ml-0">{t('search.search')}</span>
           </button>
         </div>
       </div>

@@ -18,7 +18,6 @@ interface AnimateOnScrollProps {
   duration?: number;
   threshold?: number;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
 }
 
 const animationClasses: Record<AnimationType, string> = {
@@ -38,10 +37,9 @@ export default function AnimateOnScroll({
   duration = 800,
   threshold = 0.1,
   className = '',
-  as: Component = 'div',
 }: AnimateOnScrollProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -78,13 +76,13 @@ export default function AnimateOnScroll({
   };
 
   return (
-    <Component
-      ref={ref as any}
+    <div
+      ref={ref}
       className={`${className} ${animationClass}`}
       style={style}
     >
       {children}
-    </Component>
+    </div>
   );
 }
 

@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import Input from '@/components/ui/Input';
 import Textarea from '@/components/ui/Textarea';
 import Button from '@/components/ui/Button';
 import { createMessage } from '@/lib/api';
 
 export default function ContactPage() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -53,10 +55,9 @@ export default function ContactPage() {
       <section className="relative bg-gradient-to-br from-white via-secondary-50 to-secondary-100 py-20 lg:py-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-secondary-900">Contact Us</h1>
+            <h1 className="text-4xl sm:text-5xl font-bold mb-6 text-secondary-900">{t('contact.pageTitle')}</h1>
             <p className="text-xl text-secondary-600 leading-relaxed">
-              Have questions about a property or need assistance? Our team is
-              here to help you find your perfect home.
+              {t('contact.heroSubtitle')}
             </p>
           </div>
         </div>
@@ -69,13 +70,13 @@ export default function ContactPage() {
             {/* Contact Form */}
             <div className="bg-white rounded-2xl shadow-lg border border-secondary-200 p-8">
               <h2 className="text-2xl font-bold text-secondary-900 mb-6">
-                Send Us a Message
+                {t('contact.sendMessage')}
               </h2>
 
               {submitStatus === 'success' && (
                 <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
                   <p className="text-green-800">
-                    Thank you for your message! We will get back to you soon.
+                    {t('contact.successMessage')}
                   </p>
                 </div>
               )}
@@ -88,40 +89,40 @@ export default function ContactPage() {
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <Input
-                  label="Name"
+                  label={t('contact.form.name')}
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  placeholder="Your full name"
+                  placeholder={t('contact.form.namePlaceholder')}
                 />
 
                 <Input
-                  label="Email"
+                  label={t('contact.form.email')}
                   name="email"
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="your@email.com"
+                  placeholder={t('contact.form.emailPlaceholder')}
                 />
 
                 <Input
-                  label="Phone"
+                  label={t('contact.form.phone')}
                   name="phone"
                   type="tel"
                   value={formData.phone}
                   onChange={handleChange}
-                  placeholder="+1 (555) 000-0000"
+                  placeholder={t('contact.form.phonePlaceholder')}
                 />
 
                 <Textarea
-                  label="Message"
+                  label={t('contact.form.message')}
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   required
                   rows={5}
-                  placeholder="How can we help you?"
+                  placeholder={t('contact.form.messagePlaceholder')}
                 />
 
                 <Button
@@ -130,7 +131,7 @@ export default function ContactPage() {
                   isLoading={isSubmitting}
                   className="w-full sm:w-auto"
                 >
-                  Send Message
+                  {t('contact.form.submit')}
                 </Button>
               </form>
             </div>
@@ -138,7 +139,7 @@ export default function ContactPage() {
             {/* Contact Information */}
             <div className="bg-white rounded-2xl shadow-lg border border-secondary-200 p-8">
               <h2 className="text-2xl font-bold text-secondary-900 mb-6">
-                Get in Touch
+                {t('contact.getInTouch')}
               </h2>
 
               <div className="space-y-8">
@@ -167,7 +168,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-secondary-900 mb-1">
-                      Office Address
+                      {t('contact.officeAddress')}
                     </h3>
                     <p className="text-secondary-600">
                       123 Real Estate Boulevard
@@ -197,7 +198,7 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-secondary-900 mb-1">Phone</h3>
+                    <h3 className="font-semibold text-secondary-900 mb-1">{t('contact.form.phone')}</h3>
                     <p className="text-secondary-600">
                       <a href="tel:+15551234567" className="hover:text-primary-600">
                         +1 (555) 123-4567
@@ -224,7 +225,7 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-secondary-900 mb-1">Email</h3>
+                    <h3 className="font-semibold text-secondary-900 mb-1">{t('contact.form.email')}</h3>
                     <p className="text-secondary-600">
                       <a
                         href="mailto:info@realestate.com"
@@ -255,14 +256,14 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-secondary-900 mb-1">
-                      Business Hours
+                      {t('contact.businessHours')}
                     </h3>
                     <p className="text-secondary-600">
-                      Monday - Friday: 9:00 AM - 6:00 PM
+                      {t('contact.businessHoursDetails.weekdays')}
                       <br />
-                      Saturday: 10:00 AM - 4:00 PM
+                      {t('contact.businessHoursDetails.saturday')}
                       <br />
-                      Sunday: Closed
+                      {t('contact.businessHoursDetails.sunday')}
                     </p>
                   </div>
                 </div>
@@ -291,17 +292,16 @@ export default function ContactPage() {
       <section className="py-16 lg:py-24 bg-secondary-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-secondary-900 mb-6">
-            Ready to Start Your Property Search?
+            {t('contact.ctaTitle')}
           </h2>
           <p className="text-xl text-secondary-600 mb-8 max-w-2xl mx-auto">
-            Browse our extensive collection of properties or speak with one of
-            our agents today.
+            {t('contact.ctaSubtitle')}
           </p>
           <a
             href="/properties"
             className="btn-primary inline-flex items-center justify-center"
           >
-            Browse Properties
+            {t('about.browseProperties')}
           </a>
         </div>
       </section>

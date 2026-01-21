@@ -1,0 +1,134 @@
+{
+  "nav": {
+    "home": "Home",
+    "properties": "Properties",
+    "aboutUs": "About Us",
+    "contact": "Contact",
+    "buy": "Buy",
+    "rent": "Rent",
+    "buyProperty": "Buy Property",
+    "rentProperty": "Rent Property",
+    "findProperties": "Find Properties",
+    "saved": "Saved"
+  },
+  "hero": {
+    "badge": "Trusted by 10,000+ happy homeowners",
+    "titleLine1": "Find Your Perfect",
+    "titleLine2": "Dream Property",
+    "subtitle": "Discover exceptional properties for sale and rent. From luxury penthouses to cozy family homes, we help you find the perfect place to call home.",
+    "bookViewing": "Book a Viewing",
+    "contactAgent": "Contact Agent",
+    "stats": {
+      "properties": "Properties",
+      "happyClients": "Happy Clients",
+      "yearsExperience": "Years Experience",
+      "satisfactionRate": "Satisfaction Rate"
+    }
+  },
+  "search": {
+    "buy": "Buy",
+    "rent": "Rent",
+    "locationPlaceholder": "Enter city or area",
+    "minPlaceholder": "Min",
+    "maxPlaceholder": "Max",
+    "search": "Search"
+  },
+  "featured": {
+    "title": "Featured Properties",
+    "subtitle": "Discover our hand-picked selection of premium properties available for sale and rent",
+    "viewAll": "View All Properties"
+  },
+  "footer": {
+    "description": "Your trusted partner in finding the perfect property. We provide exceptional real estate services with integrity and expertise.",
+    "quickLinks": "Quick Links",
+    "propertyTypes": "Property Types",
+    "contactUs": "Contact Us",
+    "forSale": "For Sale",
+    "forRent": "For Rent",
+    "commercial": "Commercial",
+    "newDevelopments": "New Developments",
+    "allRightsReserved": "All rights reserved."
+  },
+  "about": {
+    "pageTitle": "About RealEstate",
+    "heroSubtitle": "For over 15 years, we have been helping families and businesses find their perfect properties. Our commitment to excellence and client satisfaction has made us a trusted name in real estate.",
+    "ourStory": "Our Story",
+    "storyP1": "Founded in 2009, RealEstate began with a simple mission: to transform the way people buy, sell, and rent properties. What started as a small team of dedicated agents has grown into a full-service real estate company serving thousands of clients.",
+    "storyP2": "Our founder, Sarah Johnson, recognized that the real estate industry needed a more client-centric approach. She built RealEstate on the principles of transparency, expertise, and genuine care for clients' needs.",
+    "storyP3": "Today, we continue to innovate and adapt to the ever-changing real estate landscape while maintaining our core values that have made us successful.",
+    "ourPrinciples": "Our Principles",
+    "missionAndValues": "Mission & Values",
+    "valuesSubtitle": "We are guided by a set of core values that define who we are and how we serve our clients.",
+    "ourMission": "Our Mission",
+    "missionStatement": "To empower individuals and families to achieve their real estate dreams through expert guidance, innovative solutions, and unwavering commitment to their success.",
+    "values": {
+      "integrity": {
+        "title": "Integrity",
+        "description": "We conduct our business with the highest ethical standards, ensuring transparency and honesty in every transaction."
+      },
+      "excellence": {
+        "title": "Excellence",
+        "description": "We strive for excellence in everything we do, from client service to property selection and market analysis."
+      },
+      "clientFocus": {
+        "title": "Client Focus",
+        "description": "Our clients are at the heart of everything we do. We listen, understand, and deliver personalized solutions."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "We embrace technology and new ideas to provide cutting-edge solutions in real estate services."
+      }
+    },
+    "certificationsTitle": "Certifications & Partners",
+    "certificationsSubtitle": "We maintain the highest industry standards through continuous education and professional certifications.",
+    "certifications": {
+      "nar": {
+        "name": "National Association of Realtors",
+        "description": "Member of the leading real estate professional organization in the United States."
+      },
+      "crs": {
+        "name": "Certified Residential Specialist",
+        "description": "Advanced training in residential real estate transactions and client service."
+      },
+      "abr": {
+        "name": "Accredited Buyer Representative",
+        "description": "Specialized expertise in representing home buyers throughout the process."
+      },
+      "rene": {
+        "name": "Real Estate Negotiation Expert",
+        "description": "Professional certification in advanced negotiation strategies and techniques."
+      }
+    },
+    "ctaTitle": "Ready to Find Your Dream Property?",
+    "ctaSubtitle": "Let our experienced team help you navigate the real estate market with confidence.",
+    "browseProperties": "Browse Properties",
+    "contactAnAgent": "Contact an Agent"
+  },
+  "contact": {
+    "pageTitle": "Contact Us",
+    "heroSubtitle": "Have questions about a property or need assistance? Our team is here to help you find your perfect home.",
+    "sendMessage": "Send Us a Message",
+    "getInTouch": "Get in Touch",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your full name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Phone",
+      "phonePlaceholder": "+1 (555) 000-0000",
+      "message": "Message",
+      "messagePlaceholder": "How can we help you?",
+      "submit": "Send Message"
+    },
+    "successMessage": "Thank you for your message! We will get back to you soon.",
+    "officeAddress": "Office Address",
+    "businessHours": "Business Hours",
+    "businessHoursDetails": {
+      "weekdays": "Monday - Friday: 9:00 AM - 6:00 PM",
+      "saturday": "Saturday: 10:00 AM - 4:00 PM",
+      "sunday": "Sunday: Closed"
+    },
+    "ctaTitle": "Ready to Start Your Property Search?",
+    "ctaSubtitle": "Browse our extensive collection of properties or speak with one of our agents today."
+  }
+}

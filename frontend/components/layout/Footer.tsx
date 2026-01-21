@@ -1,8 +1,12 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const { t } = useTranslation();
 
   return (
     <footer className="bg-secondary-900 text-white">
@@ -20,15 +24,14 @@ export default function Footer() {
               />
             </Link>
             <p className="mt-4 text-secondary-400 text-sm leading-relaxed">
-              Your trusted partner in finding the perfect property. We provide
-              exceptional real estate services with integrity and expertise.
+              {t('footer.description')}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">
-              Quick Links
+              {t('footer.quickLinks')}
             </h3>
             <ul className="space-y-3">
               <li>
@@ -36,7 +39,7 @@ export default function Footer() {
                   href="/"
                   className="text-secondary-400 hover:text-white transition-colors text-sm"
                 >
-                  Home
+                  {t('nav.home')}
                 </Link>
               </li>
               <li>
@@ -44,7 +47,7 @@ export default function Footer() {
                   href="/properties"
                   className="text-secondary-400 hover:text-white transition-colors text-sm"
                 >
-                  Properties
+                  {t('nav.properties')}
                 </Link>
               </li>
               <li>
@@ -52,7 +55,7 @@ export default function Footer() {
                   href="/about"
                   className="text-secondary-400 hover:text-white transition-colors text-sm"
                 >
-                  About Us
+                  {t('nav.aboutUs')}
                 </Link>
               </li>
               <li>
@@ -60,7 +63,7 @@ export default function Footer() {
                   href="/contact"
                   className="text-secondary-400 hover:text-white transition-colors text-sm"
                 >
-                  Contact
+                  {t('nav.contact')}
                 </Link>
               </li>
             </ul>
@@ -69,7 +72,7 @@ export default function Footer() {
           {/* Property Types */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">
-              Property Types
+              {t('footer.propertyTypes')}
             </h3>
             <ul className="space-y-3">
               <li>
@@ -77,7 +80,7 @@ export default function Footer() {
                   href="/properties?status=BUY"
                   className="text-secondary-400 hover:text-white transition-colors text-sm"
                 >
-                  For Sale
+                  {t('footer.forSale')}
                 </Link>
               </li>
               <li>
@@ -85,7 +88,7 @@ export default function Footer() {
                   href="/properties?status=RENT"
                   className="text-secondary-400 hover:text-white transition-colors text-sm"
                 >
-                  For Rent
+                  {t('footer.forRent')}
                 </Link>
               </li>
               <li>
@@ -93,7 +96,7 @@ export default function Footer() {
                   href="/properties?status=COMMERCIAL"
                   className="text-secondary-400 hover:text-white transition-colors text-sm"
                 >
-                  Commercial
+                  {t('footer.commercial')}
                 </Link>
               </li>
               <li>
@@ -101,7 +104,7 @@ export default function Footer() {
                   href="/properties?status=DEVELOPMENT"
                   className="text-secondary-400 hover:text-white transition-colors text-sm"
                 >
-                  New Developments
+                  {t('footer.newDevelopments')}
                 </Link>
               </li>
             </ul>
@@ -110,7 +113,7 @@ export default function Footer() {
           {/* Contact Info */}
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">
-              Contact Us
+              {t('footer.contactUs')}
             </h3>
             <ul className="space-y-3 text-sm text-secondary-400">
               <li className="flex items-start space-x-3">
@@ -175,7 +178,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-secondary-800">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-secondary-400 text-sm">
-              {currentYear} All rights reserved.
+              {currentYear} {t('footer.allRightsReserved')}
             </p>
             <div className="flex space-x-6">
               <a
