@@ -174,19 +174,26 @@ export default async function PropertyDetailPage({ params }: Props) {
             </div>
 
             {/* Map */}
-            {(property.latitude && property.longitude) && (
+            {(property.map_embed || (property.latitude && property.longitude)) && (
               <div>
                 <h2 className="text-xl font-semibold text-secondary-900 mb-4">
                   Location
                 </h2>
                 <div className="h-[400px] rounded-xl overflow-hidden">
-                  <MapPlaceholder
-                    singleProperty={{
-                      title: property.title,
-                      lat: parseFloat(property.latitude),
-                      lng: parseFloat(property.longitude),
-                    }}
-                  />
+                  {property.map_embed ? (
+                    <div
+                      className="w-full h-full [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:border-0"
+                      dangerouslySetInnerHTML={{ __html: property.map_embed }}
+                    />
+                  ) : (
+                    <MapPlaceholder
+                      singleProperty={{
+                        title: property.title,
+                        lat: parseFloat(property.latitude!),
+                        lng: parseFloat(property.longitude!),
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             )}

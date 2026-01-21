@@ -3,15 +3,17 @@ Views for the Real Estate API.
 """
 
 from django.contrib.auth import authenticate, login, logout
-from django.db.models import Q
+from django.db.models import Q, F
 from django.middleware.csrf import get_token
+from django.utils import timezone
 from rest_framework import viewsets, status, generics
 from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from dateutil import parser as date_parser
 
-from .models import Property, PropertyImage, Message, Conversation, ChatMessage
+from .models import Property, PropertyImage, Message, Conversation, ChatMessage, BuyerSearch, Notification
 from .serializers import (
     PropertyListSerializer,
     PropertyDetailSerializer,
@@ -26,6 +28,11 @@ from .serializers import (
     ChatMessageCreateSerializer,
     ChatMessageSerializer,
     AdminReplySerializer,
+    BuyerSearchListSerializer,
+    BuyerSearchDetailSerializer,
+    BuyerSearchCreateUpdateSerializer,
+    NotificationListSerializer,
+    NotificationUpdateSerializer,
 )
 from .permissions import IsAdminOrStaff
 from .throttling import MessageCreateThrottle
@@ -57,10 +64,11 @@ class PublicPropertyListView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        queryset = Property.objects.all()
+        # Only show PUBLISHED properties to public
+        queryset = Property.objects.filter(listing_status=Property.ListingStatus.PUBLISHED)
         params = self.request.query_params
 
-        # Status filter
+        # Status filter (BUY, RENT, etc.)
         status_filter = params.get('status')
         if status_filter:
             queryset = queryset.filter(status=status_filter.upper())
@@ -119,7 +127,18 @@ class PublicPropertyDetailView(generics.RetrieveAPIView):
     serializer_class = PropertyDetailSerializer
     permission_classes = [AllowAny]
     lookup_field = 'slug'
-    queryset = Property.objects.all()
+
+    def get_queryset(self):
+        # Only show PUBLISHED properties to public
+        return Property.objects.filter(listing_status=Property.ListingStatus.PUBLISHED)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        # Increment views count
+        Property.objects.filter(pk=instance.pk).update(views_count=F('views_count') + 1)
+        instance.refresh_from_db()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
 class MessageCreateView(generics.CreateAPIView):
@@ -230,11 +249,170 @@ class AdminPropertyViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Property.objects.all()
-        ordering = self.request.query_params.get('ordering', '-created_at')
-        valid_orderings = ['price', '-price', 'created_at', '-created_at', 'title', '-title']
+        params = self.request.query_params
+
+        # Filter by listing_status
+        listing_status = params.get('listing_status')
+        if listing_status:
+            queryset = queryset.filter(listing_status=listing_status.upper())
+
+        # Search filter
+        search = params.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(title__icontains=search) | Q(location_text__icontains=search)
+            )
+
+        ordering = params.get('ordering', '-created_at')
+        valid_orderings = ['price', '-price', 'created_at', '-created_at', 'title', '-title', 'updated_at', '-updated_at']
         if ordering in valid_orderings:
             queryset = queryset.order_by(ordering)
         return queryset
+
+    @action(detail=True, methods=['post'])
+    def duplicate(self, request, pk=None):
+        """Create a copy of the property as Draft."""
+        original = self.get_object()
+
+        # Create a new property with the same data
+        new_property = Property.objects.create(
+            title=f"{original.title} (Copy)",
+            status=original.status,
+            price=original.price,
+            currency=original.currency,
+            location_text=original.location_text,
+            address=original.address,
+            bedrooms=original.bedrooms,
+            bathrooms=original.bathrooms,
+            size_sqm=original.size_sqm,
+            description=original.description,
+            latitude=original.latitude,
+            longitude=original.longitude,
+            map_embed=original.map_embed,
+            featured=False,
+            listing_status=Property.ListingStatus.DRAFT,
+            agent_name=original.agent_name,
+            agent_phone=original.agent_phone,
+            agent_email=original.agent_email,
+        )
+
+        # Copy images
+        for image in original.images.all():
+            PropertyImage.objects.create(
+                property=new_property,
+                image=image.image,
+                alt_text=image.alt_text,
+                sort_order=image.sort_order,
+            )
+
+        serializer = PropertyDetailSerializer(new_property, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=['post'])
+    def toggle_featured(self, request, pk=None):
+        """Toggle the featured status of a property."""
+        property_obj = self.get_object()
+        property_obj.featured = not property_obj.featured
+        property_obj.save()
+        return Response({
+            'id': property_obj.id,
+            'featured': property_obj.featured,
+            'message': 'Featured' if property_obj.featured else 'Unfeatured'
+        })
+
+    @action(detail=True, methods=['post'])
+    def mark_sold(self, request, pk=None):
+        """Mark a property as SOLD."""
+        property_obj = self.get_object()
+        property_obj.listing_status = Property.ListingStatus.SOLD
+        property_obj.save()
+        return Response({
+            'id': property_obj.id,
+            'listing_status': property_obj.listing_status,
+            'listing_status_display': property_obj.get_listing_status_display(),
+            'message': 'Property marked as sold'
+        })
+
+    @action(detail=True, methods=['post'])
+    def archive(self, request, pk=None):
+        """Archive a property."""
+        property_obj = self.get_object()
+        property_obj.listing_status = Property.ListingStatus.ARCHIVED
+        property_obj.save()
+        return Response({
+            'id': property_obj.id,
+            'listing_status': property_obj.listing_status,
+            'listing_status_display': property_obj.get_listing_status_display(),
+            'message': 'Property archived'
+        })
+
+    @action(detail=True, methods=['post'])
+    def publish(self, request, pk=None):
+        """Publish a property."""
+        property_obj = self.get_object()
+        property_obj.listing_status = Property.ListingStatus.PUBLISHED
+        property_obj.scheduled_publish_at = None
+        property_obj.save()
+        return Response({
+            'id': property_obj.id,
+            'listing_status': property_obj.listing_status,
+            'listing_status_display': property_obj.get_listing_status_display(),
+            'message': 'Property published'
+        })
+
+    @action(detail=True, methods=['post'])
+    def schedule_publish(self, request, pk=None):
+        """Schedule a property for future publishing."""
+        property_obj = self.get_object()
+        publish_at = request.data.get('publish_at')
+
+        if not publish_at:
+            return Response(
+                {'error': 'publish_at is required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            scheduled_time = date_parser.parse(publish_at)
+        except (ValueError, TypeError):
+            return Response(
+                {'error': 'Invalid date format'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        property_obj.scheduled_publish_at = scheduled_time
+        property_obj.save()
+
+        return Response({
+            'id': property_obj.id,
+            'scheduled_publish_at': property_obj.scheduled_publish_at,
+            'message': f'Property scheduled for publishing at {scheduled_time}'
+        })
+
+    @action(detail=True, methods=['post'])
+    def update_listing_status(self, request, pk=None):
+        """Update the listing status of a property."""
+        property_obj = self.get_object()
+        new_status = request.data.get('listing_status')
+
+        valid_statuses = [choice[0] for choice in Property.ListingStatus.choices]
+        if new_status not in valid_statuses:
+            return Response(
+                {'error': f'Invalid status. Must be one of: {", ".join(valid_statuses)}'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        property_obj.listing_status = new_status
+        if new_status == Property.ListingStatus.PUBLISHED:
+            property_obj.scheduled_publish_at = None
+        property_obj.save()
+
+        return Response({
+            'id': property_obj.id,
+            'listing_status': property_obj.listing_status,
+            'listing_status_display': property_obj.get_listing_status_display(),
+            'message': f'Status updated to {property_obj.get_listing_status_display()}'
+        })
 
 
 class AdminPropertyImageViewSet(viewsets.ModelViewSet):
@@ -466,3 +644,193 @@ class AdminConversationViewSet(viewsets.ModelViewSet):
         """Get count of conversations with unread messages."""
         count = Conversation.objects.filter(has_unread=True).count()
         return Response({'unread_count': count})
+
+
+# =============================================================================
+# Admin Buyer Search Views
+# =============================================================================
+
+class AdminBuyerSearchViewSet(viewsets.ModelViewSet):
+    """Admin management of buyer searches / saved preferences."""
+
+    queryset = BuyerSearch.objects.all()
+    permission_classes = [IsAdminOrStaff]
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return BuyerSearchListSerializer
+        elif self.action == 'retrieve':
+            return BuyerSearchDetailSerializer
+        return BuyerSearchCreateUpdateSerializer
+
+    def get_queryset(self):
+        queryset = BuyerSearch.objects.all()
+        params = self.request.query_params
+
+        # Search by buyer name or contact
+        search = params.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(buyer_name__icontains=search) |
+                Q(buyer_email__icontains=search) |
+                Q(buyer_phone__icontains=search)
+            )
+
+        # Filter by status
+        status_filter = params.get('status')
+        if status_filter:
+            queryset = queryset.filter(status=status_filter.upper())
+
+        # Filter by location
+        location = params.get('location')
+        if location:
+            queryset = queryset.filter(
+                Q(location_city__icontains=location) |
+                Q(location_area__icontains=location)
+            )
+
+        # Ordering
+        ordering = params.get('ordering', '-created_at')
+        valid_orderings = ['created_at', '-created_at', 'buyer_name', '-buyer_name', 'updated_at', '-updated_at']
+        if ordering in valid_orderings:
+            queryset = queryset.order_by(ordering)
+
+        return queryset
+
+    @action(detail=True, methods=['post'])
+    def pause(self, request, pk=None):
+        """Pause a buyer search."""
+        buyer_search = self.get_object()
+        buyer_search.status = BuyerSearch.SearchStatus.PAUSED
+        buyer_search.save()
+        return Response({
+            'id': buyer_search.id,
+            'status': buyer_search.status,
+            'status_display': buyer_search.get_status_display(),
+            'message': 'Search paused'
+        })
+
+    @action(detail=True, methods=['post'])
+    def activate(self, request, pk=None):
+        """Activate a buyer search."""
+        buyer_search = self.get_object()
+        buyer_search.status = BuyerSearch.SearchStatus.ACTIVE
+        buyer_search.save()
+        return Response({
+            'id': buyer_search.id,
+            'status': buyer_search.status,
+            'status_display': buyer_search.get_status_display(),
+            'message': 'Search activated'
+        })
+
+    @action(detail=True, methods=['post'])
+    def fulfill(self, request, pk=None):
+        """Mark a buyer search as fulfilled."""
+        buyer_search = self.get_object()
+        buyer_search.status = BuyerSearch.SearchStatus.FULFILLED
+        buyer_search.save()
+        return Response({
+            'id': buyer_search.id,
+            'status': buyer_search.status,
+            'status_display': buyer_search.get_status_display(),
+            'message': 'Search marked as fulfilled'
+        })
+
+    @action(detail=True, methods=['get'])
+    def matches(self, request, pk=None):
+        """Get matching properties for this buyer search."""
+        buyer_search = self.get_object()
+        queryset = Property.objects.filter(listing_status=Property.ListingStatus.PUBLISHED)
+
+        # Apply filters based on buyer preferences
+        if buyer_search.bedrooms_min:
+            queryset = queryset.filter(bedrooms__gte=buyer_search.bedrooms_min)
+        if buyer_search.bedrooms_max:
+            queryset = queryset.filter(bedrooms__lte=buyer_search.bedrooms_max)
+        if buyer_search.budget_min:
+            queryset = queryset.filter(price__gte=buyer_search.budget_min)
+        if buyer_search.budget_max:
+            queryset = queryset.filter(price__lte=buyer_search.budget_max)
+        if buyer_search.location_city:
+            queryset = queryset.filter(location_text__icontains=buyer_search.location_city)
+
+        serializer = PropertyListSerializer(queryset, many=True, context={'request': request})
+        return Response({
+            'count': queryset.count(),
+            'results': serializer.data
+        })
+
+
+# =============================================================================
+# Admin Notification Views
+# =============================================================================
+
+class AdminNotificationViewSet(viewsets.ModelViewSet):
+    """Admin management of notifications."""
+
+    queryset = Notification.objects.all()
+    permission_classes = [IsAdminOrStaff]
+
+    def get_serializer_class(self):
+        if self.action in ['update', 'partial_update']:
+            return NotificationUpdateSerializer
+        return NotificationListSerializer
+
+    def get_queryset(self):
+        queryset = Notification.objects.all()
+        params = self.request.query_params
+
+        # Filter by read status
+        is_read = params.get('is_read')
+        if is_read is not None:
+            is_read_bool = is_read.lower() in ('true', '1', 'yes')
+            queryset = queryset.filter(is_read=is_read_bool)
+
+        # Filter by notification type
+        notification_type = params.get('type')
+        if notification_type:
+            queryset = queryset.filter(notification_type=notification_type.upper())
+
+        # Filter by priority
+        priority = params.get('priority')
+        if priority:
+            queryset = queryset.filter(priority=priority.upper())
+
+        return queryset.order_by('-created_at')
+
+    @action(detail=True, methods=['post'])
+    def mark_read(self, request, pk=None):
+        """Mark a notification as read."""
+        notification = self.get_object()
+        notification.is_read = True
+        notification.save()
+        return Response({'message': 'Marked as read'})
+
+    @action(detail=False, methods=['post'])
+    def mark_all_read(self, request):
+        """Mark all notifications as read (excludes HIGH priority by default)."""
+        include_high_priority = request.data.get('include_high_priority', False)
+        queryset = Notification.objects.filter(is_read=False)
+
+        if not include_high_priority:
+            queryset = queryset.exclude(priority=Notification.Priority.HIGH)
+
+        count = queryset.update(is_read=True)
+        return Response({
+            'message': f'{count} notifications marked as read',
+            'count': count
+        })
+
+    @action(detail=False, methods=['get'])
+    def unread_count(self, request):
+        """Get count of unread notifications."""
+        total_unread = Notification.objects.filter(is_read=False).count()
+        high_priority_count = Notification.objects.filter(
+            is_read=False,
+            priority=Notification.Priority.HIGH
+        ).count()
+
+        return Response({
+            'unread_count': total_unread,
+            'high_priority_count': high_priority_count
+        })

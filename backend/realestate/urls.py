@@ -24,6 +24,8 @@ from .views import (
     AdminPropertyImageViewSet,
     AdminMessageViewSet,
     AdminConversationViewSet,
+    AdminBuyerSearchViewSet,
+    AdminNotificationViewSet,
 )
 
 # Router for admin viewsets
@@ -31,6 +33,8 @@ admin_router = DefaultRouter()
 admin_router.register(r'properties', AdminPropertyViewSet, basename='admin-property')
 admin_router.register(r'messages', AdminMessageViewSet, basename='admin-message')
 admin_router.register(r'conversations', AdminConversationViewSet, basename='admin-conversation')
+admin_router.register(r'buyer-searches', AdminBuyerSearchViewSet, basename='admin-buyer-search')
+admin_router.register(r'notifications', AdminNotificationViewSet, basename='admin-notification')
 
 urlpatterns = [
     # Public endpoints

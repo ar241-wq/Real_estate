@@ -6,6 +6,21 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  safelist: [
+    'bg-primary-50',
+    'bg-primary-600',
+    'bg-red-600',
+    'bg-red-100',
+    'bg-red-500',
+    'bg-secondary-50',
+    'bg-secondary-100',
+    'border-l-4',
+    'border-l-red-500',
+    'text-red-600',
+    'text-primary-600',
+    'text-primary-500',
+    'animate-pulse',
+  ],
   theme: {
     extend: {
       colors: {

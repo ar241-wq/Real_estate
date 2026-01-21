@@ -55,6 +55,7 @@ export default function PropertyForm({ property, isEdit }: PropertyFormProps) {
     description: property?.description || '',
     latitude: property?.latitude || '',
     longitude: property?.longitude || '',
+    map_embed: property?.map_embed || '',
     featured: property?.featured || false,
     agent_name: property?.agent_name || '',
     agent_phone: property?.agent_phone || '',
@@ -300,14 +301,14 @@ export default function PropertyForm({ property, isEdit }: PropertyFormProps) {
         </div>
       </div>
 
-      {/* Location Coordinates */}
+      {/* Location & Map */}
       <div className="bg-white rounded-xl border border-secondary-200 p-4 sm:p-6">
         <h3 className="text-base sm:text-lg font-semibold text-secondary-900 mb-4 sm:mb-6">
-          Location Coordinates (optional)
+          Location & Map
         </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
           <Input
-            label="Latitude"
+            label="Latitude (optional)"
             name="latitude"
             type="number"
             step="any"
@@ -317,7 +318,7 @@ export default function PropertyForm({ property, isEdit }: PropertyFormProps) {
           />
 
           <Input
-            label="Longitude"
+            label="Longitude (optional)"
             name="longitude"
             type="number"
             step="any"
@@ -326,6 +327,33 @@ export default function PropertyForm({ property, isEdit }: PropertyFormProps) {
             placeholder="e.g., -74.0060"
           />
         </div>
+
+        <div>
+          <Textarea
+            label="Google Maps Embed Code"
+            name="map_embed"
+            value={formData.map_embed || ''}
+            onChange={handleChange}
+            rows={4}
+            placeholder='Paste the Google Maps iframe embed code here, e.g., <iframe src="https://www.google.com/maps/embed?..." ...></iframe>'
+          />
+          <p className="mt-2 text-xs text-secondary-500">
+            To get the embed code: Open Google Maps → Find location → Click &quot;Share&quot; → Select &quot;Embed a map&quot; → Copy the HTML code
+          </p>
+        </div>
+
+        {/* Map Preview */}
+        {formData.map_embed && (
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-secondary-700 mb-2">
+              Map Preview
+            </label>
+            <div
+              className="w-full h-[300px] rounded-lg overflow-hidden border border-secondary-200"
+              dangerouslySetInnerHTML={{ __html: formData.map_embed }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Agent Info */}

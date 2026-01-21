@@ -6,6 +6,7 @@ import { getAdminMe, adminLogout } from '@/lib/api';
 import { User } from '@/lib/types';
 import AdminSidebar from '@/components/layout/AdminSidebar';
 import Spinner from '@/components/ui/Spinner';
+import NotificationBell from '@/components/admin/NotificationBell';
 
 export default function AdminDashboardLayout({
   children,
@@ -65,6 +66,7 @@ export default function AdminDashboardLayout({
               Dashboard
             </h1>
             <div className="flex items-center space-x-2 sm:space-x-4">
+              <NotificationBell />
               <span className="text-xs sm:text-sm text-secondary-600 hidden sm:inline">
                 Welcome, <span className="font-medium">{user.username}</span>
               </span>
